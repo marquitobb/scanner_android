@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.CaptureActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         intent.setPrompt("escanear codigo");
         intent.setCameraId(0);
+        intent.setOrientationLocked(false);
         intent.setBeepEnabled(false);
+        intent.setCaptureActivity(CaptureActivity.class);
         intent.setBarcodeImageEnabled(false);
         intent.initiateScan();
 
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         if (result != null){
