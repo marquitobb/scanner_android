@@ -31,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
         btn_escaner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                escaner();
+                escanear();
             }
         });
     }
-
+    /*
     public void escaner(){
         IntentIntegrator intent = new IntentIntegrator(this);
         //intent.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
@@ -50,8 +50,19 @@ public class MainActivity extends AppCompatActivity {
         intent.initiateScan();
 
 
+    }*/
+    public void escanear() {
+        IntentIntegrator intent = new IntentIntegrator(this);
+        intent.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        intent.setPrompt("ESCANEAR CODIGO");
+        intent.setCameraId(0);
+        intent.setOrientationLocked(false);
+        intent.setBeepEnabled(false);
+        intent.setCaptureActivity(CaptureActivityPortrait.class);
+        intent.setBarcodeImageEnabled(false);
+        intent.initiateScan();
     }
-
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
@@ -67,6 +78,21 @@ public class MainActivity extends AppCompatActivity {
         }else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(MainActivity.this, "Cancelaste el escaneo", Toast.LENGTH_SHORT).show();
+            } else {
+                etcodigo.setText(result.getContents().toString());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
+
 
 }
